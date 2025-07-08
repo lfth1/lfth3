@@ -192,7 +192,8 @@
       document.addEventListener("click", () => music.play(), { once: true });
     });
   });
-      // Prevent F12 Developer Tools from opening
+<script>
+    // Prevent F12 Developer Tools from opening
     document.onkeydown = function(e) {
         if (e.keyCode == 123) {
             return false;
