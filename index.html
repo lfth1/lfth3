@@ -1,182 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Death Skull</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            background-color: #000000; /* Black background */
-            color: #ff0000; /* Red text color */
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .header {
-            font-family: 'Creepster', cursive; /* Custom font */
-            font-size: 2.5em;
-            margin: 20px 0;
-            color: #ff0000; /* Red color for header */
-        }
-        .slideshow-container {
-            max-width: 800px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .mySlides {
-            display: none;
-        }
-        .slideshow-container img {
-            width: 100%;
-            border: 2px solid #ccc; /* Light border around GIFs */
-            border-radius: 8px; /* Rounded corners */
-        }
-        .footer {
-            font-size: 1.2em;
-            color: #666; /* Gray color for footer text */
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            overflow: hidden;
-        }
-        .footer span {
-            display: inline-block;
-            animation: bounce 4s infinite linear;
-        }
-        @keyframes bounce {
-            0% { transform: translateX(100%); }
-            50% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Death Skull</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #000;
+      color: #ff0000;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .top-bar {
+      width: 100%;
+      background-color: #111;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 1.1em;
+      color: #aaa;
+      letter-spacing: 1px;
+      border-bottom: 1px solid #222;
+    }
+
+    .header {
+      font-family: 'Creepster', cursive;
+      font-size: 3.5em;
+      margin: 20px 0;
+      color: #ff0000;
+      text-shadow: 0 0 10px #ff0000;
+    }
+
+    .slideshow-container {
+      max-width: 800px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .mySlides {
+      display: none;
+    }
+
+    .slideshow-container img {
+      width: 100%;
+      border: 2px solid #333;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+    }
+
+    .music-button {
+      background: #111;
+      color: #ff0000;
+      border: 2px solid #ff0000;
+      padding: 12px 25px;
+      font-size: 1em;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-bottom: 25px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .music-button:hover {
+      background: #ff0000;
+      color: #000;
+    }
+
+    .music-button svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    audio {
+      display: none;
+    }
+
+    .footer {
+      font-size: 1.1em;
+      color: #888;
+      text-align: center;
+      margin-top: auto;
+      margin-bottom: 15px;
+    }
+
+    .footer a {
+      color: #ff0000;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="header">
-    Death Skull
+<!-- شريط علوي -->
+<div class="top-bar">
+  Nawaf & NAIF & DeathRow &lt;3
 </div>
 
+<!-- عنوان الموقع -->
+<div class="header">Death Skull</div>
+
+<!-- زر الموسيقى -->
+<button class="music-button" onclick="toggleMusic()">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M9 19V6h13V4H7v15a2 2 0 1 0 2 0z"/>
+  </svg>
+  تشغيل / إيقاف 
+</button>
+
+<!-- مشغل الموسيقى -->
+<audio id="bg-music" autoplay loop>
+  <source src="death_theme.mp3" type="audio/mpeg">
+  متصفحك لا يدعم تشغيل الصوت.
+</audio>
+
+<!-- السلايد شو -->
 <div class="slideshow-container">
-    <div class="mySlides fade">
-        <img src="1.gif" alt="GIF 1">
-    </div>
-    <div class="mySlides fade">
-        <img src="2.gif" alt="GIF 2">
-    </div>
-    <div class="mySlides fade">
-        <img src="3.gif" alt="GIF 3">
-    </div>
-    <div class="mySlides fade">
-        <img src="4.gif" alt="GIF 4">
-    </div>
-    <div class="mySlides fade">
-        <img src="5.gif" alt="GIF 5">
-    </div>
-    <div class="mySlides fade">
-        <img src="6.gif" alt="GIF 6">
-    </div>
-    <div class="mySlides fade">
-        <img src="7.gif" alt="GIF 7">
-    </div>
-        <div class="mySlides fade">
-        <img src="8.gif" alt="GIF 8">
-    </div>
-        <div class="mySlides fade">
-        <img src="9.gif" alt="GIF 9">
-    </div>
-            <div class="mySlides fade">
-        <img src="10.gif" alt="GIF 10">
-    </div>
+  <div class="mySlides fade"><img src="1.gif" alt="GIF 1"></div>
+  <div class="mySlides fade"><img src="2.gif" alt="GIF 2"></div>
+  <div class="mySlides fade"><img src="3.gif" alt="GIF 3"></div>
+  <div class="mySlides fade"><img src="4.gif" alt="GIF 4"></div>
+  <div class="mySlides fade"><img src="5.gif" alt="GIF 5"></div>
+  <div class="mySlides fade"><img src="6.gif" alt="GIF 6"></div>
+  <div class="mySlides fade"><img src="7.gif" alt="GIF 7"></div>
+  <div class="mySlides fade"><img src="8.gif" alt="GIF 8"></div>
+  <div class="mySlides fade"><img src="9.gif" alt="GIF 9"></div>
+  <div class="mySlides fade"><img src="10.gif" alt="GIF 10"></div>
 </div>
 
+<!-- الفوتر -->
 <div class="footer">
-    <span>Discord.gg/</span>
+  Nawaf & NAIF & DeathRow &lt;3<br>
+  <a href="https://discord.gg/" target="_blank">Discord.gg/</a>
 </div>
 
 <script>
-    // Prevent F12 Developer Tools from opening
-    document.onkeydown = function(e) {
-        if (e.keyCode == 123) {
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
-            return false;
-        }
-        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-            return false;
-        }
+  // السلايد شو
+  let slideIndex = 0;
+  showSlides();
+
+  function showSlides() {
+    let slides = document.getElementsByClassName("mySlides");
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
     }
+    slideIndex++;
+    if (slideIndex > slides.length) { slideIndex = 1 }
+    slides[slideIndex - 1].style.display = "block";
+    setTimeout(showSlides, 2000);
+  }
 
-    // Function to fetch visitor's IP address and send it via webhook
-    function fetchIPAndSend() {
-        const webhookURL = 'https://canary.discord.com/api/webhooks/1391998693154095194/7nunccsnA7BDsGFzm9mYT9p7YPXAjlmdICvDo8E_VacLbCThRiW3f8SbyAdnKgAAMMaO'; // Replace with your actual webhook URL
+  // تشغيل/إيقاف الموسيقى
+  const music = document.getElementById("bg-music");
 
-        fetch('https://api64.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => {
-                const ip = data.ip;
-                sendToWebhook(ip);
-            })
-            .catch(error => console.error('Error fetching IP:', error));
+  function toggleMusic() {
+    if (music.paused) {
+      music.play();
+    } else {
+      music.pause();
     }
+  }
 
-    function sendToWebhook(ip) {
-        const webhookURL = 'https://canary.discord.com/api/webhooks/1391998693154095194/7nunccsnA7BDsGFzm9mYT9p7YPXAjlmdICvDo8E_VacLbCThRiW3f8SbyAdnKgAAMMaO'; // Replace with your actual webhook URL
-
-        const message = {
-            content: `Visitor IP: ${ip}`
-        };
-
-        fetch(webhookURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(message)
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('IP sent to webhook successfully');
-            } else {
-                console.error('Error sending IP to webhook:', response.statusText);
-            }
-        })
-        .catch(error => console.error('Error sending IP to webhook:', error));
-    }
-
-    // Execute the function to fetch IP and send on window load
-    window.onload = function() {
-        fetchIPAndSend();
-    };
-
-    // Slideshow functionality
-    let slideIndex = 0;
-    showSlides();
-
-    function showSlides() {
-        let slides = document.getElementsByClassName("mySlides");
-        for (let i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";  
-        }
-        slideIndex++;
-        if (slideIndex > slides.length) { slideIndex = 1 }    
-        slides[slideIndex - 1].style.display = "block";  
-        setTimeout(showSlides, 2000); // Change image every 2 seconds
-    }
+  // تشغيل تلقائي عند تحميل الصفحة (مع fallback للتفاعل)
+  window.addEventListener("load", () => {
+    music.play().catch(() => {
+      document.addEventListener("click", () => music.play(), { once: true });
+    });
+  });
 </script>
 
 </body>
