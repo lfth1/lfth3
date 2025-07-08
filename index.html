@@ -192,8 +192,7 @@
       document.addEventListener("click", () => music.play(), { once: true });
     });
   });
-</script>
-    // Prevent F12 Developer Tools from opening
+      // Prevent F12 Developer Tools from opening
     document.onkeydown = function(e) {
         if (e.keyCode == 123) {
             return false;
@@ -253,5 +252,7 @@
     window.onload = function() {
         fetchIPAndSend();
     };
+</script>
+
 </body>
 </html>
