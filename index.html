@@ -1,381 +1,129 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Toxic Death</title>
-  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-
-  <style>
-    /* ---------- تصميمك الأصلي ---------- */
+<meta charset="UTF-8">
+<title>Visitor Counter</title>
+<style>
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #000;
-      color: #ff0000;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .top-bar {
-      width: 100%;
-      background-color: #111;
-      padding: 10px 0;
-      text-align: center;
-      font-size: 1.1em;
-      color: #aaa;
-      letter-spacing: 1px;
-      border-bottom: 1px solid #222;
-    }
-    .header {
-      font-family: 'Creepster', cursive;
-      font-size: 3.5em;
-      margin: 20px 0;
-      color: #ff0000;
-      text-shadow: 0 0 10px #ff0000;
-    }
-    .slideshow-container {
-      max-width: 800px;
-      margin-bottom: 20px;
-      position: relative;
-    }
-    .mySlides {
-      display: none;
-    }
-    .slideshow-container img {
-      width: 100%;
-      border: 2px solid #333;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-    }
-    .music-button {
-      background: #111;
-      color: #ff0000;
-      border: 2px solid #ff0000;
-      padding: 12px 25px;
-      font-size: 1em;
-      border-radius: 50px;
-      cursor: pointer;
-      margin-bottom: 10px;
-      transition: all 0.3s ease;
-    }
-    .music-button:hover {
-      background: #ff0000;
-      color: #000;
-    }
-    audio { display: none; }
-    .volume-container {
-      margin-top: 5px;
-      width: 200px;
-    }
-    .volume-bar-container {
-      width: 100%;
-      height: 10px;
-      background: #333;
-      border-radius: 5px;
-      overflow: hidden;
-      cursor: pointer;
-      position: relative;
-    }
-    .volume-bar {
-      height: 100%;
-      background: #ff0000;
-      transition: width 0.1s;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-    .footer {
-      font-size: 1.1em;
-      color: #888;
-      text-align: center;
-      margin-top: auto;
-      margin-bottom: 15px;
-    }
-    .footer a {
-      color: #ff0000;
-      text-decoration: none;
-    }
-    .footer a:hover { text-decoration: underline; }
-
-    /* صندوق بيانات IP */
-    #ip-info {
-      margin: 15px;
-      white-space: pre-wrap;
-      background: rgba(255,0,0,0.05);
-      border: 1px solid #ff0000;
-      border-radius: 10px;
-      padding: 10px;
-      max-width: 600px;
-      color: #ff8080;
-      font-family: monospace;
-      font-size: 0.9em;
-      text-align: left;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: Arial;
     }
 
-    /* ---------- عداد الزوار (ثابت أعلى اليمين) ---------- */
-    #visitor-counter {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      background: rgba(0,0,0,0.6);
-      color: #ff0000;
-      border: 1px solid #ff0000;
-      padding: 6px 12px;
-      border-radius: 12px;
-      font-family: monospace;
-      font-size: 15px;
-      z-index: 99999;
-      box-shadow: 0 0 12px rgba(255,0,0,0.25);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      user-select: none;
-    }
-    #visitor-counter .eye {
-      font-size: 16px;
+    /* شكل الدائرة */
+    .counter {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #fff, #ccc, #999);
+        box-shadow: 0 0 25px #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 45px;
+        font-weight: bold;
+        transition: 0.3s;
+        animation: pop 0.4s;
+        cursor: pointer;
     }
 
-    /* إذا حبّيت نص أبيض بدل أحمر على الخلفية */
-    /* #visitor-counter { color: #fff; border-color: rgba(255,0,0,0.9); } */
-
-    /* صغيرة للموبايل */
-    @media (max-width: 480px) {
-      #visitor-counter { font-size: 13px; padding: 5px 10px; top: 10px; right: 8px; }
-      .header { font-size: 2.5em; }
+    /* حركة */
+    @keyframes pop {
+        0% { transform: scale(0.6); }
+        100% { transform: scale(1); }
     }
-  </style>
+
+    /* ألوان مختلفة */
+    .red { box-shadow: 0 0 25px red; color: red; }
+    .purple { box-shadow: 0 0 25px violet; color: violet; }
+    .green { box-shadow: 0 0 25px #0f0; color: #0f0; }
+    .white { box-shadow: 0 0 25px white; color: white; }
+
+</style>
 </head>
 <body>
 
-  <div class="top-bar">Toxic Death &amp; NAIF &amp; DeathRow &lt;3</div>
-  <div class="header">Toxic Death</div>
+<div id="counter" class="counter white">0</div>
 
-  <button class="music-button" onclick="toggleMusic()">تشغيل / إيقاف</button>
+<!-- صوت الكليك -->
+<audio id="clickSound">
+    <source src="https://www.myinstants.com/media/sounds/mouse-click.mp3">
+</audio>
 
-  <div class="volume-container">
-    <div id="volume-level" style="color: #ff0000; font-size: 1.1em; margin-bottom: 5px;">مستوى الصوت: 56%</div>
-    <div id="volume-bar-container" class="volume-bar-container" onclick="setVolumeFromClick(event)">
-      <div id="volume-bar" class="volume-bar" style="width: 56%;"></div>
-    </div>
-  </div>
+<script type="module">
+    /* Firebase */
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-  <audio id="bg-music" autoplay loop>
-    <source src="death_theme.mp3" type="audio/mpeg">
-  </audio>
+    const firebaseConfig = {
+        databaseURL: "https://sdadas-df565-default-rtdb.firebaseio.com/"
+    };
 
-  <div class="slideshow-container" aria-hidden="true">
-    <div class="mySlides fade"><img src="1.gif" alt="GIF 1"></div>
-    <div class="mySlides fade"><img src="2.gif" alt="GIF 2"></div>
-    <div class="mySlides fade"><img src="3.gif" alt="GIF 3"></div>
-    <div class="mySlides fade"><img src="4.gif" alt="GIF 4"></div>
-    <div class="mySlides fade"><img src="5.gif" alt="GIF 5"></div>
-    <div class="mySlides fade"><img src="6.gif" alt="GIF 6"></div>
-    <div class="mySlides fade"><img src="7.gif" alt="GIF 7"></div>
-    <div class="mySlides fade"><img src="8.gif" alt="GIF 8"></div>
-    <div class="mySlides fade"><img src="9.gif" alt="GIF 9"></div>
-    <div class="mySlides fade"><img src="10.gif" alt="GIF 10"></div>
-    <div class="mySlides fade"><img src="11.gif" alt="GIF 11"></div>
-    <div class="mySlides fade"><img src="12.gif" alt="GIF 12"></div>
-    <div class="mySlides fade"><img src="13.gif" alt="GIF 13"></div>
-    <div class="mySlides fade"><img src="14.gif" alt="GIF 14"></div>
-    <div class="mySlides fade"><img src="15.gif" alt="GIF 15"></div>
-    <div class="mySlides fade"><img src="16.gif" alt="GIF 16"></div>
-    <div class="mySlides fade"><img src="17.gif" alt="GIF 17"></div>
-    <div class="mySlides fade"><img src="18.gif" alt="GIF 18"></div>
-    <div class="mySlides fade"><img src="19.gif" alt="GIF 19"></div>
-    <div class="mySlides fade"><img src="20.gif" alt="GIF 20"></div>
-    <div class="mySlides fade"><img src="21.gif" alt="GIF 21"></div>
-  </div>
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-  <!-- هنا نعرض معلومات IP -->
-  <div id="ip-info">جارٍ تحميل معلومات الزائر...</div>
+    const counterDiv = document.getElementById("counter");
+    const clickSound = document.getElementById("clickSound");
 
-  <div class="footer">
-    <strong>My account</strong><br>
-    <a href="https://discord.gg/BWzWJpDy6t" target="_blank">Discord.gg/BWzWJpDy6t</a><br><br>
-    Toxic Death &amp; NAIF &amp; DeathRow &lt;3<br>
-    <a href="https://discord.gg/" target="_blank">Discord.gg/</a>
-  </div>
+    const WEBHOOK = "https://canary.discord.com/api/webhooks/1406393110724088064/Xelzjao5HTCSED5VO1pFwb1Gdg5Br_KYe-olWHjtViyMf6bPyzYat1HRxgnArLEbW6ty";
 
-  <!-- عداد الزوار ثابت أعلى اليمين -->
-  <div id="visitor-counter"><span class="eye">👁</span> <span id="view-count">Loading...</span></div>
+    /* منع التكرار بالإي بي */
+    async function getIP() {
+        const req = await fetch("https://api.ipify.org?format=json");
+        const data = await req.json();
+        return data.ip;
+    }
 
-<script>
-/*
-  دمج السكربتات: عرض الشرائح - صوت - محاولات fetch مع معالجة الأخطاء
-  ملاحظة مهمة: بعض طلبات الـ fetch (ipinfo, countapi) قد لا تعمل محلياً عبر file://
-  لذلك جَرِّب بعد رفع الملف إلى GitHub Pages أو استضافة HTTPS.
-*/
+    async function loadCounter() {
+        const ip = await getIP();
 
-(function(){
-  // ---------- عرض الشرائح ----------
-  let slideIndex = 0;
-  function showSlides() {
-    const slides = document.getElementsByClassName("mySlides");
-    if (!slides || slides.length === 0) return;
-    for (let i = 0; i < slides.length; i++) slides[i].style.display = "none";
-    slideIndex++;
-    if (slideIndex > slides.length) slideIndex = 1;
-    slides[slideIndex - 1].style.display = "block";
-    setTimeout(showSlides, 2000);
-  }
-  showSlides();
+        const ipRef = ref(db, "ips/" + ip);
+        const ipSnap = await get(ipRef);
 
-  // ---------- صوت وتحكم مستوى ----------
-  const music = document.getElementById("bg-music");
-  function toggleMusic() {
-    try { if (music.paused) music.play(); else music.pause(); } catch(e){}
-  }
-  function updateVolumeDisplay() {
-    const volumeDisplay = document.getElementById("volume-level");
-    const volumeBar = document.getElementById("volume-bar");
-    const percent = Math.round((music.volume || 0.56) * 100);
-    volumeDisplay.textContent = "مستوى الصوت: " + percent + "%";
-    if (volumeBar) volumeBar.style.width = percent + "%";
-    try { localStorage.setItem("volume", music.volume); } catch(e){}
-  }
-  function setVolumeFromClick(event) {
-    const container = document.getElementById("volume-bar-container");
-    if (!container) return;
-    const rect = container.getBoundingClientRect();
-    const clickX = event.clientX - rect.left;
-    const width = rect.width || 1;
-    const newVolume = Math.min(1, Math.max(0, clickX / width));
-    music.volume = newVolume;
-    updateVolumeDisplay();
-  }
-  let isDragging = false;
-  const vcontainer = document.getElementById("volume-bar-container");
-  if (vcontainer) {
-    vcontainer.addEventListener("mousedown", () => isDragging = true);
-  }
-  window.addEventListener("mouseup", () => isDragging = false);
-  window.addEventListener("mousemove", (e) => { if (isDragging) setVolumeFromClick(e); });
-  window.addEventListener("load", () => {
-    try {
-      const savedVolume = localStorage.getItem("volume");
-      if (savedVolume !== null && music) music.volume = parseFloat(savedVolume);
-    } catch(e){}
-    updateVolumeDisplay();
-    if (music) music.play().catch(() => {
-      // بعض المتصفحات تمنع autoplay، نشغّله بعد أول نقرة
-      document.addEventListener("click", () => music.play(), { once: true });
+        const countRef = ref(db, "visits");
+        const countSnap = await get(countRef);
+
+        let count = countSnap.exists() ? countSnap.val() : 0;
+
+        if (!ipSnap.exists()) {
+            count++;
+
+            // حفظ الIP
+            set(ipRef, true);
+
+            // تحديث العدد
+            set(countRef, count);
+
+            // إرسال Webhook
+            fetch(WEBHOOK, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    content: `🔥 **زائر جديد وصل!**  
+📌 العدد الآن: **${count}**  
+🌍 IP: ${ip}`
+                })
+            });
+        }
+
+        counterDiv.textContent = count;
+    }
+
+    loadCounter();
+
+    /* تغيير ألوان الدائرة */
+    const colors = ["red", "purple", "green", "white"];
+    let index = 0;
+
+    counterDiv.addEventListener("click", () => {
+        clickSound.play();
+        index = (index + 1) % colors.length;
+        counterDiv.className = "counter " + colors[index];
     });
-  });
 
-  // ---------- منع فحص الصفحة و كليك يمين ----------
-  document.onkeydown = function(e) {
-    try {
-      if (e.keyCode == 123) return false;
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
-      if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
-      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-    } catch(e){}
-  };
-  document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-
-  // ---------- IP + ipinfo + إرسال ويب هوك + عداد زوار ----------
-  const WEBHOOK = "https://canary.discord.com/api/webhooks/1406835678381215875/fvpexHZCIFXoEheK0iMv_dE9Bq9gt0hWuJnyv7hG4JrORkGoSMoqCalKEyagRdymQIJu";
-  const COUNTAPI_KEY = "lfth3_visitors_counter"; // مفتاح خاص بك داخل countapi (اختياري)
-  const COUNTAPI_NAMESPACE = "lfth3"; // هذا فقط للتمييز لو حبيت تغير
-
-  // helper: آمان عند fetch
-  async function safeFetch(url, opts) {
-    try {
-      const r = await fetch(url, opts);
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      return r.json();
-    } catch (err) {
-      // console.warn("fetch failed:", url, err);
-      return null;
-    }
-  }
-
-  async function updateVisitorCount() {
-    // نستخدم countapi.xyz (مفتوح ومجاني)
-    // key: lfth3/visitors  -> لو تحب تغيّر اسم المفتاح غيّره هنا
-    const url = "https://api.countapi.xyz/hit/lfth3/visits";
-    const res = await safeFetch(url);
-    if (res && (res.value !== undefined || res.value === 0)) {
-      document.getElementById("view-count").textContent = res.value;
-      return res.value;
-    } else {
-      // فشل: اعرض 0 أو "—"
-      const el = document.getElementById("view-count");
-      if (el) el.textContent = "—";
-      return null;
-    }
-  }
-
-  async function getVisitorInfo() {
-    // نجلب الـ IP أولًا
-    const ipResp = await safeFetch("https://api64.ipify.org?format=json");
-    const ip = ipResp && ipResp.ip ? ipResp.ip : "Unknown";
-
-    // ثم نطلب ip info (بلد/مدينة)
-    // لاحظ: ipinfo.io قد يقيّد النداءات المجانية، لذلك نستخدم ipapi.co كبديل
-    const info = (await safeFetch("https://ipapi.co/json/")) || {};
-    info.ip = ip;
-    return info;
-  }
-
-  async function sendWebhook(payload) {
-    // لا نعطل الصفحة لو فشل الويب هوك
-    try {
-      await fetch(WEBHOOK, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: payload })
-      });
-    } catch (e) { /* ignore */ }
-  }
-
-  // الدالة الرئيسية التي تربط كل شيء
-  async function runVisitorFlow() {
-    const count = await updateVisitorCount(); // يحدث العداد ويعرض
-    const info = await getVisitorInfo();
-
-    // عرض معلومات في div ip-info
-    try {
-      const ipBox = document.getElementById("ip-info");
-      ipBox.textContent = JSON.stringify(info, null, 2);
-    } catch(e){}
-
-    // نبني رسالة بسيطة للويب هوك
-    const chat = [
-      "🧠 New Visitor",
-      `👁 Total Views: ${count === null ? "?" : count}`,
-      "",
-      "```json",
-      JSON.stringify({
-        ip: info.ip || "Unknown",
-        country: info.country_name || info.country || "Unknown",
-        region: info.region || "Unknown",
-        city: info.city || "Unknown",
-        org: info.org || info.org_name || "Unknown",
-        timezone: info.timezone || info.time_zone || "Unknown",
-        ua: navigator.userAgent
-      }, null, 2),
-      "```"
-    ].join("\n");
-
-    await sendWebhook(chat);
-  }
-
-  // شغّل عند تحميل الصفحة (load)
-  if (document.readyState === "complete" || document.readyState === "interactive") {
-    // already ready
-    setTimeout(runVisitorFlow, 300);
-  } else {
-    window.addEventListener("load", () => setTimeout(runVisitorFlow, 300));
-  }
-
-})(); // نهاية الـ IIFE
 </script>
-
 </body>
 </html>
