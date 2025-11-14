@@ -1,129 +1,199 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Visitor Counter</title>
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toxic Death</title>
+  <style>
     body {
-        background: #000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        font-family: Arial;
+      font-family: 'Arial', sans-serif;
+      background-color: #000;
+      color: #ff0000;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
     }
 
-    /* شكل الدائرة */
-    .counter {
-        width: 180px;
-        height: 180px;
-        border-radius: 50%;
-        background: radial-gradient(circle, #fff, #ccc, #999);
-        box-shadow: 0 0 25px #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 45px;
-        font-weight: bold;
-        transition: 0.3s;
-        animation: pop 0.4s;
-        cursor: pointer;
+    .top-bar {
+      width: 100%;
+      background-color: #111;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 1.1em;
+      color: #aaa;
+      letter-spacing: 1px;
+      border-bottom: 1px solid #222;
     }
 
-    /* حركة */
-    @keyframes pop {
-        0% { transform: scale(0.6); }
-        100% { transform: scale(1); }
+    .header {
+      font-family: 'Creepster', cursive;
+      font-size: 3.5em;
+      margin: 20px 0;
+      color: #ff0000;
+      text-shadow: 0 0 10px #ff0000;
     }
 
-    /* ألوان مختلفة */
-    .red { box-shadow: 0 0 25px red; color: red; }
-    .purple { box-shadow: 0 0 25px violet; color: violet; }
-    .green { box-shadow: 0 0 25px #0f0; color: #0f0; }
-    .white { box-shadow: 0 0 25px white; color: white; }
+    .slideshow-container {
+      max-width: 800px;
+      margin-bottom: 20px;
+      position: relative;
+    }
 
-</style>
+    .mySlides { display: none; }
+
+    .slideshow-container img {
+      width: 100%;
+      border: 2px solid #333;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+    }
+
+    /* ==== عداد دائري ==== */
+    .counter-wrapper {
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+
+    .circle-counter {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 4px solid #ff0000;
+      box-shadow: 0 0 15px #ff0000, inset 0 0 15px #ff0000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2em;
+      color: #ff0000;
+      font-weight: bold;
+      animation: pulse 1.4s infinite ease-in-out;
+      background: radial-gradient(circle, #330000, #000);
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 10px #ff0000; }
+      50% { box-shadow: 0 0 30px #ff0000; }
+      100% { box-shadow: 0 0 10px #ff0000; }
+    }
+
+    /* صندوق ip */
+    #ip-info {
+      margin: 15px;
+      white-space: pre-wrap;
+      background: rgba(255,0,0,0.05);
+      border: 1px solid #ff0000;
+      border-radius: 10px;
+      padding: 10px;
+      max-width: 600px;
+      color: #ff8080;
+      font-family: monospace;
+      font-size: 0.9em;
+      text-align: left;
+    }
+  </style>
+
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-<div id="counter" class="counter white">0</div>
+<div class="top-bar">Toxic Death & NAIF & DeathRow <3</div>
+<div class="header">Toxic Death</div>
 
-<!-- صوت الكليك -->
-<audio id="clickSound">
-    <source src="https://www.myinstants.com/media/sounds/mouse-click.mp3">
-</audio>
+<button class="music-button" onclick="toggleMusic()">تشغيل / إيقاف</button>
+
+<!-- *** السلايد شو موجود هنا (نفس كودك) *** -->
+<div class="slideshow-container">
+  <!-- نفس صورك 1.gif → 21.gif -->
+  <!-- ... -->
+</div>
+
+<!-- ✨✨✨ مكان العداد (حسب اختيارك رقم 2) ✨✨✨ -->
+<div class="counter-wrapper">
+  <div class="circle-counter" id="visitorCounter">0</div>
+</div>
+
+<!-- مكان عرض معلومات IP -->
+<div id="ip-info">جارٍ تحميل معلومات الزائر...</div>
+
+<div class="footer">
+  <strong>My account</strong><br>
+  <a href="https://discord.gg/BWzWJpDy6t" target="_blank">Discord.gg/BWzWJpDy6t</a><br><br>
+  Toxic Death & NAIF & DeathRow <3<br>
+  <a href="https://discord.gg/" target="_blank">Discord.gg/</a>
+</div>
 
 <script type="module">
-    /* Firebase */
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-    const firebaseConfig = {
-        databaseURL: "https://sdadas-df565-default-rtdb.firebaseio.com/"
-    };
+/* ========= Firebase ========= */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+const firebaseConfig = {
+  apiKey: "AIzaSyBXWRT_Vop_2BzynSGEIP8G_bRONnu5RiA",
+  authDomain: "sdadas-df565.firebaseapp.com",
+  databaseURL: "https://sdadas-df565-default-rtdb.firebaseio.com",
+  projectId: "sdadas-df565",
+  storageBucket: "sdadas-df565.firebasestorage.app",
+  messagingSenderId: "1040188248458",
+  appId: "1:1040188248458:web:a6aadd60bd205fb30d3873",
+  measurementId: "G-JRR2JBEMZK"
+};
 
-    const counterDiv = document.getElementById("counter");
-    const clickSound = document.getElementById("clickSound");
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-    const WEBHOOK = "https://canary.discord.com/api/webhooks/1406393110724088064/Xelzjao5HTCSED5VO1pFwb1Gdg5Br_KYe-olWHjtViyMf6bPyzYat1HRxgnArLEbW6ty";
+/* ========= عداد الزوار ========= */
+async function updateVisitorCount() {
+  const countRef = ref(db, "visitorCount");
 
-    /* منع التكرار بالإي بي */
-    async function getIP() {
-        const req = await fetch("https://api.ipify.org?format=json");
-        const data = await req.json();
-        return data.ip;
-    }
+  let snapshot = await get(countRef);
+  let current = snapshot.exists() ? snapshot.val() : 0;
 
-    async function loadCounter() {
-        const ip = await getIP();
+  let newCount = current + 1;
 
-        const ipRef = ref(db, "ips/" + ip);
-        const ipSnap = await get(ipRef);
+  await set(countRef, newCount);
 
-        const countRef = ref(db, "visits");
-        const countSnap = await get(countRef);
+  document.getElementById("visitorCounter").textContent = newCount;
 
-        let count = countSnap.exists() ? countSnap.val() : 0;
+  new Audio("click.mp3").play(); // صوت خفيف
+}
 
-        if (!ipSnap.exists()) {
-            count++;
+updateVisitorCount();
 
-            // حفظ الIP
-            set(ipRef, true);
+/* ========= الفETCH + WEBHOOK ========= */
+fetch("https://api64.ipify.org?format=json")
+  .then(r => r.json())
+  .then(ipData => {
+    const ip = ipData.ip;
 
-            // تحديث العدد
-            set(countRef, count);
+    fetch('https://ipinfo.io/json')
+      .then(r => r.json())
+      .then(info => {
 
-            // إرسال Webhook
-            fetch(WEBHOOK, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    content: `🔥 **زائر جديد وصل!**  
-📌 العدد الآن: **${count}**  
-🌍 IP: ${ip}`
-                })
-            });
-        }
+        delete info.readme;
+        info.ip = ip;
 
-        counterDiv.textContent = count;
-    }
+        document.getElementById('ip-info').textContent = JSON.stringify(info, null, 2);
 
-    loadCounter();
+        // ---------- إرسال الويب هوك ----------
+        const webhookURL = "YOUR_WEBHOOK_URL_HERE";
 
-    /* تغيير ألوان الدائرة */
-    const colors = ["red", "purple", "green", "white"];
-    let index = 0;
+        fetch(webhookURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            content: "🧠 Visitor Info:\n```json\n" + JSON.stringify(info, null, 2) + "\n```"
+          })
+        });
 
-    counterDiv.addEventListener("click", () => {
-        clickSound.play();
-        index = (index + 1) % colors.length;
-        counterDiv.className = "counter " + colors[index];
-    });
+      });
+  });
 
 </script>
+
 </body>
 </html>
